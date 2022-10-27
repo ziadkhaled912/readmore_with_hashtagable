@@ -2,6 +2,7 @@ library readmore;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:hashtagable/hashtagable.dart';
 
 enum TrimMode {
   Length,
@@ -33,8 +34,38 @@ class ReadMoreText extends StatefulWidget {
     this.delimiter = _kEllipsis + ' ',
     this.delimiterStyle,
     this.callback,
+    this.isHashtagable = false,
+    this.hashtagStyle,
+    this.onHashtagTap,
   }) : super(key: key);
 
+
+  const ReadMoreText.hashtagable(this.data, {
+    Key? key,
+    this.preDataText,
+    this.postDataText,
+    this.preDataTextStyle,
+    this.postDataTextStyle,
+    this.trimExpandedText = 'show less',
+    this.trimCollapsedText = 'read more',
+    this.colorClickableText,
+    this.trimLength = 240,
+    this.trimLines = 2,
+    this.trimMode = TrimMode.Length,
+    this.style,
+    this.textAlign,
+    this.textDirection,
+    this.locale,
+    this.textScaleFactor,
+    this.semanticsLabel,
+    this.moreStyle,
+    this.lessStyle,
+    this.delimiter = _kEllipsis + ' ',
+    this.delimiterStyle,
+    this.callback,
+    required this.hashtagStyle,
+    required this.onHashtagTap,
+  }) : isHashtagable = true;
   /// Used on TrimMode.Length
   final int trimLength;
 
@@ -79,6 +110,9 @@ class ReadMoreText extends StatefulWidget {
   final double? textScaleFactor;
   final String? semanticsLabel;
   final TextStyle? delimiterStyle;
+  final bool isHashtagable;
+  final TextStyle? hashtagStyle;
+  final Function(String)? onHashtagTap;
 
   @override
   ReadMoreTextState createState() => ReadMoreTextState();
@@ -229,19 +263,47 @@ class ReadMoreTextState extends State<ReadMoreText> {
             break;
           case TrimMode.Line:
             if (textPainter.didExceedMaxLines) {
-              textSpan = TextSpan(
-                style: effectiveTextStyle,
-                text: _readMore
-                    ? widget.data.substring(0, endIndex) +
-                        (linkLongerThanLine ? _kLineSeparator : '')
-                    : widget.data,
-                children: <TextSpan>[_delimiter, link],
-              );
+              if (!widget.isHashtagable) {
+                textSpan = TextSpan(
+                  style: effectiveTextStyle,
+                  text: _readMore
+                      ? widget.data.substring(0, endIndex) +
+                          (linkLongerThanLine ? _kLineSeparator : '')
+                      : widget.data,
+                  children: <TextSpan>[_delimiter, link],
+                );
+              } else {
+                textSpan = TextSpan(
+                  style: effectiveTextStyle,
+                  children: <TextSpan>[
+                    getHashTagTextSpan(
+                      source: _readMore
+                          ? widget.data.substring(0, endIndex) +
+                              (linkLongerThanLine ? _kLineSeparator : '')
+                          : widget.data,
+                      basicStyle: effectiveTextStyle ?? TextStyle(),
+                      decoratedStyle: widget.hashtagStyle ?? TextStyle(),
+                      onTap: widget.onHashtagTap,
+                    ),
+                    _delimiter,
+                    link
+                  ],
+                );
+              }
             } else {
-              textSpan = TextSpan(
-                style: effectiveTextStyle,
-                text: widget.data,
-              );
+              if (!widget.isHashtagable) {
+                textSpan = TextSpan(
+                  style: effectiveTextStyle,
+                  text: widget.data,
+                );
+              } else {
+                textSpan = getHashTagTextSpan(
+                  source: widget.data,
+                  basicStyle: effectiveTextStyle ?? TextStyle(),
+                  decoratedStyle: widget.hashtagStyle ?? TextStyle(),
+                  onTap: widget.onHashtagTap,
+                );
+              }
             }
             break;
           default:

@@ -85,6 +85,22 @@ class DemoApp extends StatelessWidget {
                   trimExpandedText: ' Less',
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ReadMoreText.hashtagable(
+                  '#hashTest thatand these are compiled together to create the user interface. ',
+                  trimLines: 2,
+                  style: TextStyle(color: Colors.black),
+                  colorClickableText: Colors.pink,
+                  trimMode: TrimMode.Line,
+                  trimCollapsedText: '...Read more',
+                  trimExpandedText: ' Less',
+                  hashtagStyle: TextStyle(color: Colors.blue, fontWeight: FontWeight.w700),
+                  onHashtagTap: (text) {
+                    print("On Tab $text");
+                  },
+                ),
+              ),
             ],
           ),
         ),
