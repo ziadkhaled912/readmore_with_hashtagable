@@ -2,7 +2,7 @@ library readmore;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:hashtagable/hashtagable.dart';
+import 'package:readmore/hashtag_utils.dart';
 
 enum TrimMode {
   Length,
@@ -112,7 +112,7 @@ class ReadMoreText extends StatefulWidget {
   final TextStyle? delimiterStyle;
   final bool isHashtagable;
   final TextStyle? hashtagStyle;
-  final Function(String)? onHashtagTap;
+  final HashtagOnTap? onHashtagTap;
 
   @override
   ReadMoreTextState createState() => ReadMoreTextState();
@@ -276,13 +276,13 @@ class ReadMoreTextState extends State<ReadMoreText> {
                 textSpan = TextSpan(
                   style: effectiveTextStyle,
                   children: <TextSpan>[
-                    getHashTagTextSpan(
-                      source: _readMore
+                    textSpan = getHashTagText(
+                      _readMore
                           ? widget.data.substring(0, endIndex) +
-                              (linkLongerThanLine ? _kLineSeparator : '')
+                          (linkLongerThanLine ? _kLineSeparator : '')
                           : widget.data,
-                      basicStyle: effectiveTextStyle ?? TextStyle(),
-                      decoratedStyle: widget.hashtagStyle ?? TextStyle(),
+                      effectiveTextStyle: effectiveTextStyle ?? TextStyle(),
+                      hashtagStyle: widget.hashtagStyle ?? TextStyle(),
                       onTap: widget.onHashtagTap,
                     ),
                     _delimiter,
@@ -297,10 +297,10 @@ class ReadMoreTextState extends State<ReadMoreText> {
                   text: widget.data,
                 );
               } else {
-                textSpan = getHashTagTextSpan(
-                  source: widget.data,
-                  basicStyle: effectiveTextStyle ?? TextStyle(),
-                  decoratedStyle: widget.hashtagStyle ?? TextStyle(),
+                textSpan = getHashTagText(
+                  widget.data,
+                  effectiveTextStyle: effectiveTextStyle ?? TextStyle(),
+                  hashtagStyle: widget.hashtagStyle ?? TextStyle(),
                   onTap: widget.onHashtagTap,
                 );
               }

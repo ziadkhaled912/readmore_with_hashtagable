@@ -4,15 +4,16 @@ version: 2.2.0
 homepage: https://github.com/jonataslaw/loadmore
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
+  sdk: ">=2.18.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  hashtagable: ^2.1.0
+#  hashtagable: ^2.1.0
+#  linkfy_text: ^1.1.5
 
 
-# For information on the generic Dart part of this file, see the
+  # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
