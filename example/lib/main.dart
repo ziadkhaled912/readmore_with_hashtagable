@@ -43,17 +43,37 @@ class DemoApp extends StatelessWidget {
               Padding(
                 key: const Key('showMore'),
                 padding: const EdgeInsets.all(16.0),
-                child: ReadMoreText(
+                child: ReadMoreText.hashtagable(
                   'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
                   trimLines: 2,
-                  preDataText: "AMANDA",
-                  preDataTextStyle: TextStyle(fontWeight: FontWeight.w500),
-                  style: TextStyle(color: Colors.black),
+                  // preDataText: "AMANDA",
+                  // preDataTextStyle: TextStyle(fontWeight: FontWeight.w500),
+                  style: TextStyle(color: Colors.red),
                   colorClickableText: Colors.pink,
                   trimMode: TrimMode.Line,
                   trimCollapsedText: '...Show more',
                   trimExpandedText: ' show less',
+                  hashtagStyle: TextStyle(color: Colors.black), onHashtagTap: (String? value) {  },
                 ),
+              ),
+              ReadMoreText.hashtagable(
+                "attributes #das dsalfdlksjf fdklsjflksfe kjfdlsk",
+                trimMode: TrimMode.Line,
+                // colorClickableText: Colors.yellow,
+                trimCollapsedText: "less",
+                trimExpandedText: "\nmore",
+                // lessStyle: _buttonStyle(context),
+                // moreStyle: _buttonStyle(context),
+                style: TextStyle(
+                  // fontSize: 12,
+                  // fontWeight: FontWeight.w400,
+                  // height: 18/12,
+                  color: Colors.red,
+                ),
+                hashtagStyle: null,
+                onHashtagTap: (text) {
+                  // context.router.push(VideoSearchRoute(hashtag: text));
+                },
               ),
               Divider(
                 color: const Color(0xFF167F67),

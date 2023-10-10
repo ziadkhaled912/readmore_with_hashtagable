@@ -18,7 +18,7 @@ TextSpan getHashTagText(
 }) {
   final _regExp = getHashtagRegExp();
 
-  if (!_regExp.hasMatch(text) || text.isEmpty) return TextSpan(text: text);
+  if (!_regExp.hasMatch(text) || text.isEmpty) return TextSpan(text: text, style: effectiveTextStyle);
   final texts = text.split(_regExp);
   List<InlineSpan> spans = [];
   final hashtags = _regExp.allMatches(text).toList();
